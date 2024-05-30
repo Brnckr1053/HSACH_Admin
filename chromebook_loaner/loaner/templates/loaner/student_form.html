@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+<!-- Include jQuery and Select2 from CDN -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+<script>
+$(document).ready(function() {
+    $.ajax({
+        url: "{% url 'get_student_names' %}",
+        method: "GET",
+        success: function(data) {
+            var studentData = data.map(function(student) {
+                return { id: student, text: student };
+            });
+
+            $('#id_student').select2({
+                data: studentData,
+                placeholder: "Select a student",
+                allowClear: true
+            });
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.error("Error fetching student names:", textStatus, errorThrown);
+        }
+    });
+});
+</script>
+
+<h2>Loaner Chromebook Form</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+<a href="{% url 'student_list' %}" class="btn">Back</a>
+
+{% endblock %}
+
+

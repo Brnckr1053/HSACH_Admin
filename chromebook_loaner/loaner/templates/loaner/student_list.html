@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Borrowers List</h2>
+<table class="table table-bordered table-striped">
+    <thead class="thead-dark">
+        <tr>
+            <th>Student Name</th>
+            <th>Chromebook Number</th>
+            <th>Borrowed Date</th>
+            <th>Returned</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for borrower in borrowers %}
+        <tr>
+            <td>{{ borrower.student.name }}</td>
+            <td>{{ borrower.chromebook_number }}</td>
+            <td>{{ borrower.borrowed_date }}</td>
+            <td>{{ borrower.returned }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<a href="{% url 'student_form' %}" class="btn btn-primary">New Loan</a>
+{% endblock %}
